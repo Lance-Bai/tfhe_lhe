@@ -1,5 +1,5 @@
 # Refined TFHE Leveled Homomorphic Evaluation and Its Application
-This is an implementation of '[Refined TFHE Leveled Homomorphic Evaluation and Its Application](https://eprint.iacr.org/2024/1318)' fft based part.
+This is an implementation of '[Refined TFHE Leveled Homomorphic Evaluation and Its Application](https://eprint.iacr.org/2024/1318)'.
 
 ## Contents
 We implement:

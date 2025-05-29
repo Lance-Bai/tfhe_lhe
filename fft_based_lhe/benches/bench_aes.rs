@@ -1,13 +1,13 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
 use rand::Rng;
 use tfhe::core_crypto::prelude::*;
-use auto_base_conv::{
+use refined_tfhe_lhe::{
     aes_instances::*, automorphism::gen_all_auto_keys, byte_array_to_mat, generate_scheme_switching_key, generate_vec_keyed_lut_accumulator, get_he_state_error, he_add_round_key, he_mix_columns_precomp, he_shift_rows, he_sub_bytes_8_to_24_by_patched_wwlp_cbs, he_sub_bytes_by_patched_wwlp_cbs, keygen_pbs_with_glwe_ds, keyswitch_lwe_ciphertext_by_glwe_keyswitch, known_rotate_keyed_lut, Aes128Ref, BLOCKSIZE_IN_BIT, BLOCKSIZE_IN_BYTE, BYTESIZE, NUM_ROUNDS
 };
 
 criterion_group!(
     name = benches;
-    config = Criterion::default().sample_size(1000);
+    config = Criterion::default().sample_size(10);
     targets =
         criterion_benchmark_aes,
 );
@@ -95,10 +95,10 @@ fn criterion_benchmark_aes(c: &mut Criterion) {
         );
 
         // ======== Plain ========
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         let mut key = [0u8; BLOCKSIZE_IN_BYTE];
         for i in 0..BLOCKSIZE_IN_BYTE {
-            key[i] = rng.gen_range(0..=u8::MAX);
+            key[i] = rng.random_range(0..=u8::MAX);
         }
 
         let aes = Aes128Ref::new(&key);
@@ -106,7 +106,7 @@ fn criterion_benchmark_aes(c: &mut Criterion) {
 
         let mut message = [0u8; BLOCKSIZE_IN_BYTE];
         for i in 0..16 {
-            message[i] = rng.gen_range(0..=255);
+            message[i] = rng.random_range(0..=255);
         }
         let correct_output = byte_array_to_mat(aes.encrypt_block(message));
 

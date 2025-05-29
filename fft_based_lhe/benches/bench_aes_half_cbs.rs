@@ -1,7 +1,7 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
 use rand::Rng;
 use tfhe::core_crypto::prelude::*;
-use auto_base_conv::{
+use refined_tfhe_lhe::{
     aes_instances::*, allocate_and_generate_new_glwe_keyswitch_key, automorphism::gen_all_auto_keys, blind_rotate_keyed_sboxes, convert_lev_state_to_ggsw, convert_standard_glwe_keyswitch_key_to_fourier, generate_scheme_switching_key, generate_vec_keyed_lut_accumulator, generate_vec_keyed_lut_glev, he_add_round_key, he_mix_columns_precomp, he_shift_rows, he_sub_bytes_8_to_24_by_patched_wwlp_cbs, he_sub_bytes_by_patched_wwlp_cbs, keygen_pbs_with_glwe_ds, keyswitch_lwe_ciphertext_by_glwe_keyswitch, known_rotate_keyed_lut_for_half_cbs, lev_mix_columns_precomp, lev_shift_rows, Aes128Ref, FourierGlweKeyswitchKey, BLOCKSIZE_IN_BIT, BLOCKSIZE_IN_BYTE, BYTESIZE, NUM_ROUNDS
 };
 
@@ -174,10 +174,10 @@ B_auto: 2^{}, l_auto: {}, fft_auto: {:?}, B_ss: 2^{}, l_ss: {}, B_cbs: 2^{}, l_c
         let large_lwe_size = lwe_sk.lwe_dimension().to_lwe_size();
 
         // ======== Plain ========
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         let mut key = [0u8; BLOCKSIZE_IN_BYTE];
         for i in 0..BLOCKSIZE_IN_BYTE {
-            key[i] = rng.gen_range(0..=u8::MAX);
+            key[i] = rng.random_range(0..=u8::MAX);
         }
 
         let aes = Aes128Ref::new(&key);
@@ -185,7 +185,7 @@ B_auto: 2^{}, l_auto: {}, fft_auto: {:?}, B_ss: 2^{}, l_ss: {}, B_cbs: 2^{}, l_c
 
         let mut message = [0u8; BLOCKSIZE_IN_BYTE];
         for i in 0..16 {
-            message[i] = rng.gen_range(0..=255);
+            message[i] = rng.random_range(0..=255);
         }
 
         // ======== HE ========
