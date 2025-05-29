@@ -14,9 +14,9 @@ This artifact demonstrates the following key contributions:
 
 - **Novel FFT-based LHE scheme**: Introduces a new Leveled Homomorphic Evaluation construction based on Fast Fourier Transform, achieving superior performance compared to existing approaches.
 
-- **Integer-input LHE extension**: Extends the FFT-based LHE scheme from binary input operations to support integer inputs, broadening its practical applicability.
-
 - **Transciphering application**: Provides comprehensive evaluation of transciphering tasks using our LHE schemes, demonstrating real-world performance improvements.
+
+- **Integer-input LHE extension**: Extends the FFT-based LHE scheme from binary input operations to support integer inputs, broadening its practical applicability.
 
 ## Repository Structure
 
